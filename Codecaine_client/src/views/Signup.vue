@@ -117,6 +117,7 @@ import {
   GoogleAuthProvider,
   signInWithPopup,
   createUserWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import { useAuthStore } from "../stores/useAuthStore";
 import api from "../config/api"; // 假設有一個 api.js 檔案處理 API 請求
@@ -135,13 +136,12 @@ const register = async () => {
   success.value = "";
 
   try {
-    await setPersistence(auth, browserSessionPersistence);
-
     const userCredential = await createUserWithEmailAndPassword(
       auth,
       email.value,
       password.value
     );
+    await signOut(auth);
     success.value = "註冊成功！";
     alert(success.value); //alert最後可以再調整美觀的樣式
     router.push("/login");
